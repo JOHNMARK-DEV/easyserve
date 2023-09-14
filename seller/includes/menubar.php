@@ -4,10 +4,10 @@
     <!-- Sidebar user panel -->
     <div class="user-panel">
       <div class="pull-left image">
-        <img src="<?php echo (!empty($admin['photo'])) ? '../images/'.$admin['photo'] : '../images/profile.jpg'; ?>" class="img-circle" alt="User Image">
+        <img src="<?php echo (!empty($seller['photo'])) ? '../images/'.$seller['photo'] : '../images/profile.jpg'; ?>" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
-        <p><?php echo $admin['firstname'].' '.$admin['lastname']; ?></p>
+        <p><?php echo $seller['firstname'].' '.$seller['lastname']; ?></p>
         <a><i class="fa fa-circle text-success"></i> Online</a>
       </div>
     </div>
@@ -16,6 +16,7 @@
       <li class="header">REPORTS</li>
       <li><a href="home.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
       <li><a href="sales.php"><i class="fa fa-money"></i> <span>Sales</span></a></li>
+      <li><a href="job_order.php"><i class="fa fa-money"></i> <span>Job Order Request</span></a></li>
       <li class="header">MANAGE</li> 
       <li class="treeview">
         <a href="#">

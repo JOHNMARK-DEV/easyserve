@@ -57,12 +57,12 @@
       ?>
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-lg-4 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
               <?php
-                $stmt = $conn->prepare("SELECT * FROM details LEFT JOIN products ON products.id=details.product_id");
+                $stmt = $conn->prepare("SELECT * FROM details LEFT JOIN products ON products.id=details.product_id where products.seller_id=".$seller['id']);
                 $stmt->execute();
 
                 $total = 0;
@@ -71,7 +71,7 @@
                   $total += $subtotal;
                 }
 
-                echo "<h3>&#36; ".number_format_short($total, 2)."</h3>";
+                echo "<h3>PHP ".number_format_short($total, 2)."</h3>";
               ?>
               <p>Total Sales</p>
             </div>
@@ -82,12 +82,12 @@
           </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-lg-4 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
               <?php
-                $stmt = $conn->prepare("SELECT *, COUNT(*) AS numrows FROM products");
+                $stmt = $conn->prepare("SELECT *, COUNT(*) AS numrows FROM products where products.seller_id=".$seller['id']);
                 $stmt->execute();
                 $prow =  $stmt->fetch();
 
@@ -101,35 +101,15 @@
             </div>
             <!-- <a href="student.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
           </div>
-        </div>
+        </div> 
+         
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-yellow">
-            <div class="inner">
-              <?php
-                $stmt = $conn->prepare("SELECT *, COUNT(*) AS numrows FROM users");
-                $stmt->execute();
-                $urow =  $stmt->fetch();
-
-                echo "<h3>".$urow['numrows']."</h3>";
-              ?>
-             
-              <p>Number of Users</p>
-            </div>
-            <div class="icon">
-              <i class="fa fa-users"></i>
-            </div>
-            <!-- <a href="return.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-lg-4 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
               <?php
-                $stmt = $conn->prepare("SELECT * FROM details LEFT JOIN sales ON sales.id=details.sales_id LEFT JOIN products ON products.id=details.product_id WHERE sales_date=:sales_date");
+                $stmt = $conn->prepare("SELECT * FROM details LEFT JOIN sales ON sales.id=details.sales_id LEFT JOIN products ON products.id=details.product_id WHERE sales_date=:sales_date and products.seller_id=".$seller['id']);
                 $stmt->execute(['sales_date'=>$today]);
 
                 $total = 0;
@@ -138,7 +118,7 @@
                   $total += $subtotal;
                 }
 
-                echo "<h3>&#36; ".number_format_short($total, 2)."</h3>";
+                echo "<h3>PHP ".number_format_short($total, 2)."</h3>";
                 
               ?>
 
@@ -197,14 +177,14 @@
 
 <!-- Chart Data -->
 <?php
-  $supplier_id = $_SESSION['supplier'] ;
+  $seller_id = $seller['id'] ;
   $months = array();
   $sales = array();
   for( $m = 1; $m <= 12; $m++ ) {
     try{
-      $stmt = $conn->prepare("SELECT * FROM details LEFT JOIN sales ON sales.id=details.sales_id LEFT JOIN products ON products.id=details.product_id JOIN users ON products.supplier_id=users.id WHERE users.id=:supplier_id AND MONTH(sales_date)=:month AND YEAR(sales_date)=:year");
+      $stmt = $conn->prepare("SELECT * FROM details LEFT JOIN sales ON sales.id=details.sales_id LEFT JOIN products ON products.id=details.product_id JOIN users ON products.seller_id=users.id WHERE users.id=:seller_id AND MONTH(sales_date)=:month AND YEAR(sales_date)=:year");
      
-      $stmt->execute(['supplier_id'=>$supplier_id,'month'=>$m, 'year'=>$year]);
+      $stmt->execute(['seller_id'=>$seller_id,'month'=>$m, 'year'=>$year]);
       $total = 0;
       foreach($stmt as $srow){
         $subtotal = $srow['price']*$srow['quantity'];

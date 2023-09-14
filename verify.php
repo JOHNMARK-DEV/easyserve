@@ -19,7 +19,7 @@
 							$_SESSION['admin'] = $row['id'];
 						}else 
 						if($row['type'] == 2){
-							$_SESSION['supplier'] = $row['id'];
+							$_SESSION['seller'] = $row['id'];
 						}
 						if($row['type'] == 0){
 							$_SESSION['user'] = $row['id'];

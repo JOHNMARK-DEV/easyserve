@@ -37,7 +37,7 @@
 
 		       			try{
 		       			 	$inc = 3;	
-						    $stmt = $conn->prepare("SELECT * FROM products LEFT JOIN users ON products.supplier_id=users.id LEFT JOIN details ON products.id=details.product_id WHERE products.status='A' AND category_id = :catid");
+						    $stmt = $conn->prepare("SELECT * FROM products LEFT JOIN users ON products.seller_id=users.id LEFT JOIN details ON products.id=details.product_id WHERE products.status='A' AND category_id = :catid");
 						    $stmt->execute(['catid' => $catid]);
 							echo "<div class='row'>";
 						    foreach ($stmt as $row) {

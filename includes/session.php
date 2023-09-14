@@ -4,8 +4,8 @@
 
 	if(isset($_SESSION['admin'])){
 		header('location: admin/home.php');
-	}else if(isset($_SESSION['supplier'])){
-		header('location: supplier/home.php');
+	}else if(isset($_SESSION['seller'])){
+		header('location: seller/home.php');
 	}
 
 	

@@ -26,7 +26,7 @@
           <div class="box">
             <div class="box-header with-border">
               <div class="pull-right">
-                <form method="POST" class="form-inline" action="sales_print.php">
+                <!-- <form method="POST" class="form-inline" action="sales_print.php">
                   <div class="input-group">
                     <div class="input-group-addon">
                       <i class="fa fa-calendar"></i>
@@ -34,7 +34,7 @@
                     <input type="text" class="form-control pull-right col-sm-8" id="reservation" name="date_range">
                   </div>
                   <button type="submit" class="btn btn-success btn-sm btn-flat" name="print"><span class="glyphicon glyphicon-print"></span> Print</button>
-                </form>
+                </form> -->
               </div>
             </div>
             <div class="box-body">
@@ -52,11 +52,11 @@
                     $conn = $pdo->open();
 
                     try{
-                      $stmt = $conn->prepare("SELECT *, sales.id AS salesid FROM sales LEFT JOIN users ON users.id=sales.user_id ORDER BY sales_date DESC");
-                      $stmt->execute();
+                      $stmt = $conn->prepare("SELECT *, sales.id AS salesid FROM sales LEFT JOIN users ON users.id=sales.user_id WHERE users.id=:seller_id ORDER BY sales_date DESC");
+                      $stmt->execute(['seller_id'=>$seller['id']]);
                       foreach($stmt as $row){
-                        $stmt = $conn->prepare("SELECT * FROM details LEFT JOIN products ON products.id=details.product_id WHERE details.sales_id=:id");
-                        $stmt->execute(['id'=>$row['salesid']]);
+                        $stmt = $conn->prepare("SELECT * FROM details INNER JOIN products ON products.id=details.product_id WHERE products.seller_id=:seller_id");
+                        $stmt->execute(['seller_id'=>$seller['id']]);
                         $total = 0;
                         foreach($stmt as $details){
                           $subtotal = $details['price']*$details['quantity'];

@@ -6,6 +6,7 @@
 
 	if(isset($_POST['signup'])){
 		$company = $_POST['company'];
+		$type = 2;
 		$firstname = $_POST['firstname'];
 		$lastname = $_POST['lastname'];
 		$email = $_POST['email'];
@@ -56,7 +57,7 @@
 
 				try{
 					$stmt = $conn->prepare("INSERT INTO users (type, company ,email, password, firstname, lastname, activate_code, created_on) VALUES (:type, :company, :email, :password, :firstname, :lastname, :code, :now)");
-					$stmt->execute(['type'=>0,'company'=>"",'email'=>$email, 'password'=>$password, 'firstname'=>$firstname, 'lastname'=>$lastname, 'code'=>$code, 'now'=>$now]);
+					$stmt->execute(['type'=>$type,'company'=>$company,'email'=>$email, 'password'=>$password, 'firstname'=>$firstname, 'lastname'=>$lastname, 'code'=>$code, 'now'=>$now]);
 					$userid = $conn->lastInsertId();
 
 					$message = "

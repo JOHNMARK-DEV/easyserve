@@ -54,23 +54,12 @@
         <ul class="nav navbar-nav">
           <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-shopping-cart"></i>
-              <span class="label label-success cart_count"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have <span class="cart_count"></span> item(s) in cart</li>
-              <li>
-                <ul class="menu" id="cart_menu">
-                </ul>
-              </li>
-              <li class="footer"><a href="cart_view.php">Go to Cart</a></li>
-            </ul>
           </li>
           <?php
             if(isset($_SESSION['user'])){
               $image = (!empty($user['photo'])) ? 'images/'.$user['photo'] : 'images/profile.jpg';
-              echo '
+              echo ' 
+                <li><a href="my_request.php">My Requests</a></li> 
                 <li class="dropdown user user-menu">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <img src="'.$image.'" class="user-image" alt="User Image">

@@ -23,7 +23,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Product List
+        Job Orders List
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -97,12 +97,10 @@
                 <div class="box-body">
                   <table id="example1" class="table table-bordered">
                     <thead>
-                      <th>Service Provider</th>
-                      <th>Service Name</th>
-                      <!-- <th>Photo</th> -->
-                      <th>Description</th>
-                      <th>Price</th>
-                      <th>Views Today</th>
+                      <th>Customer</th>
+                      <th>Address</th> 
+                      <th>Job Order</th> 
+                      <th>Customer Notes</th> 
                       <th>Tools</th>
                     </thead>
                     <tbody>
@@ -111,18 +109,18 @@
 
                         try{
                           $now = date('Y-m-d');
-                          $stmt = $conn->prepare("SELECT * FROM products INNER JOIN users on products.seller_id = users.id $where_request and products.status='P'");
-                          $stmt->execute();
+                          $stmt = $conn->prepare("SELECT *,job_order.id FROM job_order LEFT JOIN products on products.id = job_order.product_id INNER JOIN users on job_order.user_id = users.id $where_request and job_order.status='P' and products.seller_id=:seller_id");
+                          $stmt->execute(['seller_id'=>$seller['id']]);
                           foreach($stmt as $row){
                             $image = (!empty($row['photo'])) ? '../images/'.$row['photo'] : '../images/noimage.jpg';
                             $counter = ($row['date_view'] == $now) ? $row['counter'] : 0;
                             echo "
                               <tr> 
-                                <td>".$row['company']."</td>
+                                <td>".$row['firstname'].' '.$row['lastname']."</td>
+                                <td>".$row['address']."</td> 
                                 <td>".$row['name']."</td> 
                                 <td><a href='#description' data-toggle='modal' class='btn btn-info btn-sm btn-flat desc' data-id='".$row['id']."'><i class='fa fa-search'></i> View</a></td>
-                                <td>PHP ".number_format($row['price'], 2)."</td>
-                                <td>".$counter."</td>
+                                  
                                 <td>
                                   <button class='btn btn-success btn-sm approve btn-flat' data-id='".$row['id']."'> Approve</button>
                                   <button class='btn btn-danger btn-sm decline btn-flat' data-id='".$row['id']."'>  Decline</button>
@@ -179,13 +177,11 @@
                 <div class="box-body">
                   <table id="example1" class="table table-bordered">
                     <thead>
-                      <th>Service Provider</th>
-                      <th>Service Name</th>
-                      <!-- <th>Photo</th> -->
-                      <th>Description</th>
-                      <th>Price</th>
-                      <th>Views Today</th>
-                      <th>Status</th>
+                      <th>Customer</th>
+                      <th>Address</th> 
+                      <th>Job Order</th> 
+                      <th>Customer Notes</th> 
+                      <th>Status</th> 
                     </thead>
                     <tbody>
                       <?php
@@ -193,23 +189,23 @@
 
                         try{
                           $now = date('Y-m-d');
-                          $stmt = $conn->prepare("SELECT * FROM products INNER JOIN users on products.seller_id = users.id $where_approved  and products.status='A'");
-                          $stmt->execute();
+                          $stmt = $conn->prepare("SELECT *,job_order.id as job_id FROM job_order LEFT JOIN products on products.id = job_order.product_id INNER JOIN users on job_order.user_id = users.id $where_request and job_order.status='A' and products.seller_id=:seller_id");
+                          $stmt->execute(['seller_id'=>$seller['id']]);
                           foreach($stmt as $row){
                             $image = (!empty($row['photo'])) ? '../images/'.$row['photo'] : '../images/noimage.jpg';
-                            $counter = ($row['date_view'] == $now) ? $row['counter'] : 0;
+                            $counter = ($row['date_view'] == $now) ? $row['counter'] : 0; 
                             echo "
-                              <tr> 
-                                <td>".$row['company']."</td>
-                                <td>".$row['name']."</td> 
-                                <td><a href='#description' data-toggle='modal' class='btn btn-info btn-sm btn-flat desc' data-id='".$row['id']."'><i class='fa fa-search'></i> View</a></td>
-                                <td>PHP ".number_format($row['price'], 2)."</td>
-                                <td>".$counter."</td>
-                                <td>
-                                  <button class='btn btn-primary btn-flat' > Approved</button>
-                                </td>
-                              </tr>
-                            ";
+                            <tr> 
+                              <td>".$row['firstname'].' '.$row['lastname']."</td>
+                              <td>".$row['address']."</td> 
+                              <td>".$row['name']."</td> 
+                              <td><a href='#description' data-toggle='modal' class='btn btn-info btn-sm btn-flat desc' data-id='".$row['job_id']."'><i class='fa fa-search'></i> View</a></td>
+                              
+                              <td> 
+                                <button class='btn btn-primary btn-flat' > Approved</button>
+                              </td>
+                            </tr>
+                          ";
                           }
                         }
                         catch(PDOException $e){
@@ -260,13 +256,11 @@
                 <div class="box-body">
                   <table id="example1" class="table table-bordered">
                     <thead>
-                      <th>Service Provider</th>
-                      <th>Service Name</th>
-                      <!-- <th>Photo</th> -->
-                      <th>Description</th>
-                      <th>Price</th>
-                      <th>Views Today</th>
-                      <th>Status</th>
+                      <th>Customer</th>
+                      <th>Address</th> 
+                      <th>Job Order</th> 
+                      <th>Customer Notes</th> 
+                      <th>Status</th> 
                     </thead>
                     <tbody>
                       <?php
@@ -274,18 +268,18 @@
 
                         try{
                           $now = date('Y-m-d');
-                          $stmt = $conn->prepare("SELECT * FROM products INNER JOIN users on products.seller_id = users.id $where_declined and products.status='D'");
-                          $stmt->execute();
+                          $stmt = $conn->prepare("SELECT *,job_order.id AS job_id FROM job_order LEFT JOIN products on products.id = job_order.product_id INNER JOIN users on job_order.user_id = users.id $where_request and job_order.status='D' and products.seller_id=:seller_id");
+                          $stmt->execute(['seller_id'=>$seller['id']]);
                           foreach($stmt as $row){
                             $image = (!empty($row['photo'])) ? '../images/'.$row['photo'] : '../images/noimage.jpg';
                             $counter = ($row['date_view'] == $now) ? $row['counter'] : 0;
                             echo "
-                              <tr> 
-                                <td>".$row['company']."</td>
+                            <tr> 
+                                <td>".$row['firstname'].' '.$row['lastname']."</td>
+                                <td>".$row['address']."</td> 
                                 <td>".$row['name']."</td> 
-                                <td><a href='#description' data-toggle='modal' class='btn btn-info btn-sm btn-flat desc' data-id='".$row['id']."'><i class='fa fa-search'></i> View</a></td>
-                                <td>PHP ".number_format($row['price'], 2)."</td>
-                                <td>".$counter."</td>
+                                <td><a href='#description' data-toggle='modal' class='btn btn-info btn-sm btn-flat desc' data-id='".$row['job_id']."'><i class='fa fa-search'></i> View</a></td>
+                            
                                 <td>
                                   <button class='btn btn-danger btn-flat' > Declined</button>
                                 </td>
@@ -335,7 +329,7 @@ $(function(){
   });
 
   $(document).on('click', '.approve', function(e){
-    e.preventDefault();
+    e.preventDefault(); 
     $('#approve').modal('show');
     var id = $(this).data('id');
     getRow(id);
@@ -381,7 +375,7 @@ $(function(){
 function getRow(id){
   $.ajax({
     type: 'POST',
-    url: 'products_row.php',
+    url: 'job_order_row.php',
     data: {id:id},
     dataType: 'json',
     success: function(response){

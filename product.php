@@ -6,7 +6,7 @@
 
 	try{
 		 		
-	    $stmt = $conn->prepare("SELECT *, products.name AS prodname, category.name AS catname, products.id AS prodid FROM products LEFT JOIN category ON category.id=products.category_id  LEFT JOIN users ON products.supplier_id=users.id WHERE slug = :slug");
+	    $stmt = $conn->prepare("SELECT *, products.name AS prodname, category.name AS catname, products.id AS prodid FROM products LEFT JOIN category ON category.id=products.category_id  LEFT JOIN users ON products.seller_id=users.id WHERE slug = :slug");
 	    $stmt->execute(['slug' => $slug]);
 	    $product = $stmt->fetch(); ; 
 		
@@ -73,11 +73,25 @@
 		            		<p><b>Description:</b></p>
 		            		<p><?php echo $product['description']; ?></p>
 		            	</div>  
-						<div class="form-group col-sm-12">
-							<label for="exampleFormControlTextarea1">Requests / Notes for service</label>
-							<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea> 
-						<button type="submit" class="btn btn-primary btn-sm btn-flat"><i class="fa fa-shopping-cart"></i> Submit</button>  
-						</div>
+						<?php
+	        			if(isset($_SESSION['user'])){
+	        				echo " 
+							<form class='form-horizontal' method='POST' action='product_request.php'>
+								<input type='hidden' class='prodid' name='product_id' value=".$product['id'].">
+								<div class='form-group col-sm-12'>
+									<label for='exampleFormControlTextarea1'>Requests / Notes for service</label>
+									<textarea class='form-control' id='exampleFormControlTextarea1' name='request_description' rows='5'></textarea> 
+									<button type=submit class='btn btn-primary btn-sm btn-flat'><i class='fa fa-shopping-cart'></i> Submit</button>  
+								</div>  
+							</form>
+	        				";
+							}
+							else{
+								echo "
+									<h4>You need to <a href='login.php'>Login</a> to Request Appointment.</h4>
+								";
+							}
+						?> 
 		            </div>
 		            <br>
 				    <div class="fb-comments" data-href="http://localhost/ecommerce/product.php?product=<?php echo $slug; ?>" data-numposts="10" width="100%"></div> 
@@ -96,23 +110,27 @@
 
 <?php include 'includes/scripts.php'; ?>
 <script>
-$(function(){
-	$('#add').click(function(e){
-		e.preventDefault();
-		var quantity = $('#quantity').val();
-		quantity++;
-		$('#quantity').val(quantity);
-	});
-	$('#minus').click(function(e){
-		e.preventDefault();
-		var quantity = $('#quantity').val();
-		if(quantity > 1){
-			quantity--;
-		}
-		$('#quantity').val(quantity);
-	});
-
-});
+// $(document).on('click', '.submit', function(e){  
+// 		alert('success')
+// 		var request_description = <?php echo $product['id']; ?>;
+// 		var product_id = <?php echo $product['id']; ?>;
+// 		alert('success2')
+// 		$.ajax({
+// 			type: 'POST',
+// 			url: 'product_request.php',
+// 			data: {
+// 				request_description: request_description,
+// 				product_id: product_id,
+// 			},
+// 			dataType: 'json',  
+// 			success: function(response){
+// 				console.log(response)
+// 				if(!response.error){
+// 					 alert('success')
+// 				}
+// 			}
+// 		});
+// 	}); 
 </script>
 
 </body>

@@ -13,28 +13,28 @@
                   	<label for="email" class="col-sm-3 control-label">Email</label>
 
                   	<div class="col-sm-9">
-                    	<input type="text" class="form-control" id="email" name="email" value="<?php echo $admin['email']; ?>">
+                    	<input type="text" class="form-control" id="email" name="email" value="<?php echo $seller['email']; ?>">
                   	</div>
                 </div>
                 <div class="form-group">
                     <label for="password" class="col-sm-3 control-label">Password</label>
 
                     <div class="col-sm-9"> 
-                      <input type="password" class="form-control" id="password" name="password" value="<?php echo $admin['password']; ?>">
+                      <input type="password" class="form-control" id="password" name="password" value="<?php echo $seller['password']; ?>">
                     </div>
                 </div>
                 <div class="form-group">
                   	<label for="firstname" class="col-sm-3 control-label">Firstname</label>
 
                   	<div class="col-sm-9">
-                    	<input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo $admin['firstname']; ?>">
+                    	<input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo $seller['firstname']; ?>">
                   	</div>
                 </div>
                 <div class="form-group">
                   	<label for="lastname" class="col-sm-3 control-label">Lastname</label>
 
                   	<div class="col-sm-9">
-                    	<input type="text" class="form-control" id="lastname" name="lastname" value="<?php echo $admin['lastname']; ?>">
+                    	<input type="text" class="form-control" id="lastname" name="lastname" value="<?php echo $seller['lastname']; ?>">
                   	</div>
                 </div>
                 <div class="form-group">

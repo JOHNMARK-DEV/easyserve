@@ -50,11 +50,11 @@
                     <input type="text" class="form-control" id="price" name="price" required>
                   </div>
 
-                  <label for="photo" class="col-sm-1 control-label">Photo</label>
+                  <!-- <label for="photo" class="col-sm-1 control-label">Photo</label>
 
                   <div class="col-sm-5">
-                    <input type="file" id="photo" name="photo">
-                  </div>
+                    <input type="file" id="photo" name="photophoto">
+                  </div> -->
                 </div>
                 <p><b>Description</b></p>
                 <div class="form-group">
